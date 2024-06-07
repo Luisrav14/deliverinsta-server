@@ -1,10 +1,14 @@
-import cors from "cors";
-import express from "express";
+import cors from 'cors'
+import express from 'express'
+import connectDB from './config/database'
 
-const app = express();
+const app = express()
 
 // Middlewares
-app.use(cors());
-app.use(express.json());
+app.use(cors())
+app.use(express.json())
 
-export default app;
+// MongoDB connection
+connectDB()
+
+export default app
