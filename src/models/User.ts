@@ -41,8 +41,8 @@ const userSchema: Schema = new Schema(
       required: true
     },
     type: {
-      type: Number,
-      enum: UserType,
+      type: String,
+      enum: Object.values(UserType),
       required: true
     }
   },
