@@ -1,5 +1,5 @@
 import mongoose, { Document, Schema } from 'mongoose'
-import { StoreStatus } from '../enums/storeStatus'
+import { StoreCategory, StoreStatus } from '../enums/storeStatus'
 
 export interface IStore extends Document {
   uid: string
@@ -9,6 +9,7 @@ export interface IStore extends Document {
   email: string
   phone: string
   description?: string
+  category: StoreCategory
   openTime: string
   closeTime: string
   daysOpen: string[]
@@ -48,6 +49,11 @@ const storeSchema: Schema = new Schema(
     },
     description: {
       type: String
+    },
+    category: {
+      type: String,
+      enum: Object.values(StoreCategory),
+      required: true
     },
     openTime: {
       type: String,
