@@ -20,8 +20,10 @@ export interface IStore extends Document {
 const storeSchema: Schema = new Schema(
   {
     uid: {
-      type: String,
-      required: true
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+      unique: true
     },
     name: {
       type: String,
