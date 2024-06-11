@@ -1,4 +1,3 @@
-// src/routes/deliveryPersonRoutes.ts
 import { Router } from 'express'
 import {
   createDeliveryPersonHandler,
