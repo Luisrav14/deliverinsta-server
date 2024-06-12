@@ -25,16 +25,15 @@ const deliveryPersonSchema: Schema = new Schema(
     },
     licensePlate: {
       type: String,
-      required: true
+      required: false
     },
-    availabilityStatus: {
-      type: String,
-      enum: Object.values(AvailabilityStatus),
-      required: true
+    available: {
+      type: Boolean,
+      default: false
     },
     currentLocation: {
       type: String,
-      required: true
+      required: false
     }
   },
   { timestamps: true }

@@ -40,7 +40,7 @@ const storeSchema: Schema = new Schema(
     },
     email: {
       type: String,
-      required: true,
+      required: false,
       unique: true
     },
     phone: {
@@ -55,23 +55,12 @@ const storeSchema: Schema = new Schema(
       enum: Object.values(StoreCategory),
       required: true
     },
-    openTime: {
-      type: String,
-      required: true
+    schedule: {
+      type: String
     },
-    closeTime: {
-      type: String,
-      required: true
-    },
-    daysOpen: [
-      {
-        type: String
-      }
-    ],
-    status: {
-      type: String,
-      enum: Object.values(StoreStatus),
-      required: true
+    active: {
+      type: Boolean,
+      default: false
     }
   },
   {

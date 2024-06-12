@@ -21,24 +21,24 @@ const userSchema: Schema = new Schema(
     },
     name: {
       type: String,
-      required: true
+      required: false
+    },
+    fullName: {
+      type: String,
+      required: false
     },
     email: {
       type: String,
       required: true,
       unique: true
     },
-    password: {
-      type: String,
-      required: true
-    },
     address: {
       type: String,
-      required: true
+      required: false
     },
     phone: {
       type: String,
-      required: true
+      required: false
     },
     type: {
       type: String,
