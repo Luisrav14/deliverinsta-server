@@ -39,4 +39,4 @@ const deliveryPersonSchema: Schema = new Schema(
   { timestamps: true }
 )
 
-export default mongoose.model<IDeliveryPerson>('DeliveryPerson', deliveryPersonSchema)
+export default mongoose.model<IDeliveryPerson>('DeliveryUser', deliveryPersonSchema)

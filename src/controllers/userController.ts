@@ -4,10 +4,18 @@ import { createUser, deleteUser, getAllUsers, getUserById, updateUser } from '..
 export const createUserHandler = async (req: Request, res: Response): Promise<void> => {
   try {
     const user = await createUser(req.body)
-    res.status(201).json(user)
+
+    res.status(201).json({
+      ok: true,
+      data: user
+    })
   } catch (error) {
     console.error(error)
-    res.status(500).json({ error: error })
+
+    res.status(500).json({
+      ok: false,
+      error: error
+    })
   }
 }
 
@@ -15,9 +23,12 @@ export const getUserByIdHandler = async (req: Request, res: Response): Promise<v
   try {
     const user = await getUserById(req.params.id)
     if (user) {
-      res.status(200).json(user)
+      res.status(200).json({
+        ok: true,
+        data: user
+      })
     } else {
-      res.status(404).json({ message: 'User not found' })
+      res.status(404).json({ ok: false, message: 'User not found' })
     }
   } catch (error) {
     console.error(error)
@@ -29,10 +40,11 @@ export const getUserByIdHandler = async (req: Request, res: Response): Promise<v
 export const getAllUsersHandler = async (req: Request, res: Response): Promise<void> => {
   try {
     const users = await getAllUsers()
-    res.status(200).json(users)
+
+    res.status(200).json({ ok: true, data: users })
   } catch (error) {
     console.error(error)
-    res.status(500).json({ error: error })
+    res.status(500).json({ ok: false, error: error })
   }
 }
 
@@ -40,14 +52,14 @@ export const updateUserHandler = async (req: Request, res: Response): Promise<vo
   try {
     const user = await updateUser(req.params.id, req.body)
     if (user) {
-      res.status(200).json(user)
+      res.status(200).json({ ok: true, data: user })
     } else {
-      res.status(404).json({ message: 'User not found' })
+      res.status(404).json({ ok: false, message: 'User not found' })
     }
   } catch (error) {
     console.error(error)
 
-    res.status(500).json({ error: error })
+    res.status(500).json({ ok: false, error: error })
   }
 }
 
@@ -55,13 +67,13 @@ export const deleteUserHandler = async (req: Request, res: Response): Promise<vo
   try {
     const user = await deleteUser(req.params.id)
     if (user) {
-      res.status(200).json({ message: 'User deleted successfully' })
+      res.status(200).json({ ok: true, message: 'User deleted successfully' })
     } else {
-      res.status(404).json({ message: 'User not found' })
+      res.status(404).json({ ok: false, message: 'User not found' })
     }
   } catch (error) {
     console.error(error)
 
-    res.status(500).json({ error: error })
+    res.status(500).json({ ok: false, error: error })
   }
 }

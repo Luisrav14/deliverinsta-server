@@ -1,5 +1,5 @@
 import mongoose, { Document, Schema } from 'mongoose'
-import { UserType } from '../enums/userTypes'
+import { UserRole } from '../enums/userTypes'
 
 export interface IUser extends Document {
   firebaseId: string
@@ -8,7 +8,7 @@ export interface IUser extends Document {
   password: string
   address: string
   phone: string
-  type: UserType
+  type: UserRole
   created_at: string
   updated_at: string
 }
@@ -40,9 +40,9 @@ const userSchema: Schema = new Schema(
       type: String,
       required: false
     },
-    type: {
+    role: {
       type: String,
-      enum: Object.values(UserType),
+      enum: Object.values(UserRole),
       required: true
     }
   },
