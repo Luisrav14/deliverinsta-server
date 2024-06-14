@@ -10,7 +10,7 @@ import authMiddleware from '../middleware/authMiddleware'
 
 const userRouter = Router()
 
-userRouter.post('/', authMiddleware, createUserHandler)
+userRouter.post('/', createUserHandler)
 userRouter.get('/:id', authMiddleware, getUserByIdHandler)
 userRouter.get('/', authMiddleware, getAllUsersHandler)
 userRouter.put('/:id', authMiddleware, updateUserHandler)

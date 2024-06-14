@@ -1,8 +1,26 @@
 import User, { IUser } from '../models/User'
+import admin from '../config/firebase/firebaseAdmin'
 
-export const createUser = async (userData: IUser): Promise<IUser> => {
-  const user = new User(userData)
-  return await user.save()
+export const createUser = async (userData: Partial<IUser>): Promise<{ user: IUser; token: string }> => {
+  try {
+    const userRecord = await admin.auth().createUser({
+      email: userData.email,
+      password: userData.password
+    })
+
+    const token = await admin.auth().createCustomToken(userRecord.uid)
+
+    const user = new User({
+      firebaseId: userRecord.uid,
+      ...userData
+    })
+
+    await user.save()
+
+    return { user, token }
+  } catch (error) {
+    throw error
+  }
 }
 
 export const getUserById = async (id: string): Promise<IUser | null> => {
