@@ -4,8 +4,9 @@ export enum StoreStatus {
 }
 
 export enum StoreCategory {
-  GROCERY = 'grocery',
-  RESTAURANT = 'restaurant',
-  CLOTHING = 'clothing',
-  ELECTRONICS = 'electronics'
+  GROCERY = 'Abarrotes',
+  RESTAURANT = 'Restaurante',
+  CLOTHING = 'Ropa',
+  ELECTRONICS = 'Electronica',
+  OTHER = 'Otro'
 }
