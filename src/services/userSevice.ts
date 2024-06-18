@@ -18,8 +18,12 @@ export const createUser = async (userData: Partial<IUser>): Promise<{ user: IUse
     await user.save()
 
     return { user, token }
-  } catch (error) {
-    throw error
+  } catch (error: any) {
+    if (error.errorInfo) {
+      throw new Error(error.errorInfo.code)
+    } else {
+      throw error
+    }
   }
 }
 

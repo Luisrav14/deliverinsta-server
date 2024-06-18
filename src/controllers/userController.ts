@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import { createUser, deleteUser, getAllUsers, getUserById, updateUser } from '../services/userSevice'
 import { handleFirebaseError } from '../utils/handleFirebaseError'
+import { createUser, deleteUser, getAllUsers, getUserById, updateUser } from '../services/userSevice'
 
 export const createUserHandler = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -11,9 +11,10 @@ export const createUserHandler = async (req: Request, res: Response): Promise<vo
       data: user,
       token
     })
-  } catch (error) {
-    console.error(error)
-    const errorMessage = handleFirebaseError(error)
+  } catch (error: any) {
+    console.error(error.message)
+
+    const errorMessage = handleFirebaseError(error.message)
 
     res.status(500).json({
       ok: false,
