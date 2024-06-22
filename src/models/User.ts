@@ -4,6 +4,7 @@ import { UserRole } from '../enums/userTypes'
 export interface IUser extends Document {
   firebaseId: string
   name: string
+  lastName: string
   email: string
   password: string
   address: string
@@ -23,7 +24,7 @@ const userSchema: Schema = new Schema(
       type: String,
       required: false
     },
-    fullName: {
+    lastName: {
       type: String,
       required: false
     },
