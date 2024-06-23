@@ -8,12 +8,10 @@ const authMiddleware = async (req: Request, res: Response, next: NextFunction) =
     return res.status(401).json({ message: 'No hay token en la petición' })
   }
 
-  // console.log(token)
-
   try {
-    // const decodedToken = await verifyFirebaseToken(token)
+    const decodedToken = await verifyFirebaseToken(token)
     // console.log(decodedToken)
-    // req.user = decodedToken
+    ;(req as any).user = decodedToken
     next()
   } catch (error) {
     return res.status(401).json({ message: 'Invalid Token' })
