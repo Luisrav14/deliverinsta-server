@@ -1,5 +1,5 @@
 import User, { IUser } from '../models/User'
-import admin from '../config/firebase/firebaseAdmin'
+import admin from '../config/firebaseAdmin'
 
 export const createUser = async (userData: Partial<IUser>): Promise<{ user: IUser; token: string }> => {
   try {

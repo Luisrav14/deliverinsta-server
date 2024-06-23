@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { authenticateUser } from '../services/authService'
-import { handleFirebaseError } from '../utils/handleFirebaseError'
+import { handleFirebaseError } from '../utils/firebase'
 
 export const authenticateUserHandler = async (req: Request, res: Response): Promise<void> => {
   try {

@@ -1,5 +1,5 @@
 import User, { IUser } from '../models/User'
-import admin from '../config/firebase/firebaseAdmin'
+import admin from '../config/firebaseAdmin'
 
 export interface AuthResponse {
   user: IUser

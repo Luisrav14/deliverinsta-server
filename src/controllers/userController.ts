@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { handleFirebaseError } from '../utils/handleFirebaseError'
+import { handleFirebaseError } from '../utils/firebase'
 import { createUser, deleteUser, getAllUsers, getUserById, updateUser } from '../services/userSevice'
 
 export const createUserHandler = async (req: Request, res: Response): Promise<void> => {
