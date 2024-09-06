@@ -3,6 +3,6 @@ import { authenticateUserHandler } from '../controllers/authController'
 
 const authRouter = Router()
 
-authRouter.post('/login', authenticateUserHandler)
+authRouter.post('/', authenticateUserHandler)
 
 export default authRouter

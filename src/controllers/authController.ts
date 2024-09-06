@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import { authenticateUser } from '../services/authService'
 import { handleFirebaseError } from '../utils/firebase'
+import { authenticateUser } from '../services/authService'
 
 export const authenticateUserHandler = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -14,6 +14,7 @@ export const authenticateUserHandler = async (req: Request, res: Response): Prom
     })
   } catch (error: any) {
     console.error(error)
+
     const errorMessage = handleFirebaseError(error.message)
 
     res.status(500).json({
