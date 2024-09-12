@@ -8,8 +8,7 @@ export const authenticateUserHandler = async (req: Request, res: Response): Prom
     const { user, token: customToken } = await authenticateUser(token)
 
     res.status(200).json({
-      ok: true,
-      data: user,
+      user,
       token: customToken
     })
   } catch (error: any) {
