@@ -6,7 +6,7 @@ export const createStore = async (storeData: IStore): Promise<IStore> => {
 }
 
 export const getStoreById = async (id: string): Promise<IStore | null> => {
-  return await Store.findById(id)
+  return await Store.findOne({ uid: id })
 }
 
 export const getAllStores = async (): Promise<IStore[]> => {
