@@ -1,5 +1,5 @@
 import mongoose, { Document, Schema } from 'mongoose'
-import { StoreCategory, StoreStatus } from '../enums/storeStatus'
+import { StoreCategory } from '../enums/storeStatus'
 
 export interface IStore extends Document {
   uid: string
@@ -13,7 +13,7 @@ export interface IStore extends Document {
   openTime: string
   closeTime: string
   daysOpen: string[]
-  status: StoreStatus
+  active: boolean
   createdAt: string
   updatedAt: string
 }
@@ -55,8 +55,15 @@ const storeSchema: Schema = new Schema(
       enum: Object.values(StoreCategory),
       required: true
     },
-    schedule: {
+    openTime: {
       type: String
+    },
+    closeTime: {
+      type: String
+    },
+    daysOpen: {
+      type: [String],
+      enum: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
     },
     active: {
       type: Boolean,
