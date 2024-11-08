@@ -6,6 +6,7 @@ export interface IProduct extends Document {
   description?: string
   category: string
   stock: number
+  image: string
   storeId: mongoose.Types.ObjectId
   createdAt: Date
   updatedAt: Date
@@ -22,6 +23,9 @@ const productSchema = new Schema<IProduct>(
       required: true
     },
     description: {
+      type: String
+    },
+    image: {
       type: String
     },
     category: {
