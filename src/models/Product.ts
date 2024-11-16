@@ -5,8 +5,9 @@ export interface IProduct extends Document {
   price: number
   description?: string
   category: string
-  stock: number
+  // stock: number
   image: string
+  available: boolean
   storeId: mongoose.Types.ObjectId
   createdAt: Date
   updatedAt: Date
@@ -32,11 +33,15 @@ const productSchema = new Schema<IProduct>(
       type: String,
       required: true
     },
-    stock: {
+    available: {
+      type: Boolean,
+      required: true
+    },
+    /* stock: {
       type: Number,
       required: true,
       default: 0
-    },
+    }, */
     storeId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Store',

@@ -1,5 +1,3 @@
-import path from 'path'
-import { v4 as uuidv4 } from 'uuid'
 import { Request, Response } from 'express'
 import fileUpload from 'express-fileupload'
 
@@ -10,7 +8,6 @@ import { generateUniqueFileName } from '../utils/generateUniqueFileName'
 export const createProductHandler = async (req: Request, res: Response): Promise<void> => {
   const data = req.body
 
-  // Verificar si se subió un archivo
   if (!req.files || !req.files.image) {
     res.status(400).json({ ok: false, message: 'Image file is required.' })
     return
@@ -28,10 +25,8 @@ export const createProductHandler = async (req: Request, res: Response): Promise
 
     const productData = { ...data, image: imageUrl }
 
-    // Crear el producto en la base de datos
     const product = await productService.createProduct(productData)
 
-    // Responder con éxito
     res.status(201).json({ ok: true, data: product })
   } catch (error) {
     console.error('Error creating product:', error)

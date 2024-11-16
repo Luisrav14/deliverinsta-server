@@ -14,6 +14,7 @@ const authMiddleware = async (req: Request, res: Response, next: NextFunction) =
     ;(req as any).user = decodedToken
     next()
   } catch (error) {
+    console.error(error)
     return res.status(401).json({ message: 'Invalid Token' })
   }
 }
