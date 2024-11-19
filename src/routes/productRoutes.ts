@@ -8,7 +8,7 @@ productRouter.use(authMiddleware)
 
 productRouter.post('/', productController.createProductHandler)
 productRouter.get('/:id', productController.getProductHandler)
-productRouter.get('/store/:storeId', productController.getAllProductsHandler)
+productRouter.get('/store/:storeId', productController.getProductsByStoreHandler)
 productRouter.put('/:id', productController.updateProductHandler)
 productRouter.delete('/:id', productController.deleteProductHandler)
 

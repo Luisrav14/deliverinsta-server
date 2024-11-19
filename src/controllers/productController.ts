@@ -4,6 +4,7 @@ import fileUpload from 'express-fileupload'
 import { uploadImage } from '../utils/uploads'
 import * as productService from '../services/productService'
 import { generateUniqueFileName } from '../utils/generateUniqueFileName'
+import Product from '../models/Product'
 
 export const createProductHandler = async (req: Request, res: Response): Promise<void> => {
   const data = req.body
@@ -48,9 +49,44 @@ export const getProductHandler = async (req: Request, res: Response): Promise<vo
   }
 }
 
-export const getAllProductsHandler = async (req: Request, res: Response): Promise<void> => {
+export const getProductsByStoreHandler = async (req: Request, res: Response): Promise<void> => {
+  const page = parseInt(req.query.page as string, 10) || 1
+  const limit = parseInt(req.query.limit as string, 10) || 10
+  const sortBy = (req.query.sortBy as string) || 'name'
+  const order = req.query.order === 'desc' ? -1 : 1
+  const search = (req.query.search as string) || ''
+
   try {
-    const products = await productService.getAllProducts(req.params.storeId)
+    const filter: Record<string, any> = { storeId: req.params.storeId }
+    if (search) {
+      filter.name = { $regex: search, $options: 'i' } // Search by name, case-insensitive
+    }
+
+    const total = await Product.countDocuments(filter)
+    const products = await Product.find(filter)
+      .sort({ [sortBy]: order }) // Sort by specific prop
+      .skip((page - 1) * limit)
+      .limit(limit)
+
+    res.status(200).json({
+      ok: true,
+      data: products,
+      pagination: {
+        total,
+        page,
+        pages: Math.ceil(total / limit),
+        limit
+      }
+    })
+  } catch (error) {
+    console.error('Error fetching products:', error)
+    res.status(500).json({ ok: false, message: 'Error fetching products.' })
+  }
+}
+
+export const getProductsHandler = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const products = await productService.getAllProducts()
     res.status(200).json({ ok: true, data: products })
   } catch (error) {
     console.error(error)
