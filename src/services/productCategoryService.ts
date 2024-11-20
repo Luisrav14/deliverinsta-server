@@ -1,3 +1,4 @@
+import { ProductSubcategory } from '../models/ProductSubcategory'
 import { IProductCategory, ProductCategory } from '../models/ProductCategory'
 
 export const createCategory = async (data: Partial<IProductCategory>): Promise<IProductCategory> => {
@@ -5,8 +6,30 @@ export const createCategory = async (data: Partial<IProductCategory>): Promise<I
   return category.save()
 }
 
-export const getCategories = async (): Promise<IProductCategory[]> => {
-  return ProductCategory.find()
+export const getCategories = async () => {
+  return ProductCategory.find().lean()
+}
+
+export const getCategoriesWithSubcategories = async () => {
+  try {
+    const categories = await ProductCategory.find().exec()
+
+    const categoriesWithSubcategories = await Promise.all(
+      categories.map(async (category) => {
+        const subcategories = await ProductSubcategory.find({ parentCategory: category._id }).exec()
+
+        return {
+          ...category.toObject(),
+          subcategories
+        }
+      })
+    )
+
+    return categoriesWithSubcategories
+  } catch (error) {
+    console.error('Error fetching categories with subcategories:', error)
+    throw error
+  }
 }
 
 export const getCategoryById = async (id: string): Promise<IProductCategory | null> => {

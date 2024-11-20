@@ -6,8 +6,11 @@ import {
   updateCategoryHandler,
   deleteCategoryHandler
 } from '../controllers/productCategoryController'
+import authMiddleware from '../middleware/authMiddleware'
 
 const productCategoryRouter = Router()
+
+productCategoryRouter.use(authMiddleware)
 
 productCategoryRouter.post('/', createCategoryHandler)
 productCategoryRouter.get('/', getCategoriesHandler)

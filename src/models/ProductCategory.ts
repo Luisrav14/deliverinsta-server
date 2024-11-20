@@ -9,8 +9,16 @@ export interface IProductCategory extends Document {
 
 const ProductCategorySchema = new Schema<IProductCategory>(
   {
-    name: { type: String, required: true, unique: true, trim: true },
-    description: { type: String, trim: true }
+    name: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true
+    },
+    description: {
+      type: String,
+      trim: true
+    }
   },
   { timestamps: true }
 )

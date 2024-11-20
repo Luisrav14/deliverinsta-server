@@ -13,7 +13,7 @@ export const createCategoryHandler = async (req: Request, res: Response): Promis
 
 export const getCategoriesHandler = async (req: Request, res: Response): Promise<void> => {
   try {
-    const categories = await productCategoryService.getCategories()
+    const categories = await productCategoryService.getCategoriesWithSubcategories()
     res.status(200).json({ ok: true, data: categories })
   } catch (error) {
     console.error('Error fetching categories:', error)
