@@ -64,6 +64,7 @@ export const getProductsByStoreHandler = async (req: Request, res: Response): Pr
 
     const total = await Product.countDocuments(filter)
     const products = await Product.find(filter)
+      .populate('category')
       .sort({ [sortBy]: order }) // Sort by specific prop
       .skip((page - 1) * limit)
       .limit(limit)

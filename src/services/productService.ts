@@ -6,7 +6,7 @@ export const createProduct = async (productData: Partial<IProduct>): Promise<IPr
 }
 
 export const getAllProducts = async (): Promise<IProduct[]> => {
-  return await Product.find()
+  return await Product.find().populate('category').populate('storeId')
 }
 
 export const getProductById = async (id: string): Promise<IProduct | null> => {

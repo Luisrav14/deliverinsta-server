@@ -30,7 +30,7 @@ const productSchema = new Schema<IProduct>(
     },
     category: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'ProductSubategory'
+      ref: 'ProductSubategories'
     },
     available: {
       type: Boolean,
