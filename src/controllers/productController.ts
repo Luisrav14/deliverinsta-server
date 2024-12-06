@@ -1,9 +1,9 @@
 import { Request, Response } from 'express'
 import fileUpload from 'express-fileupload'
 
-import { uploadImage } from '../utils/uploads'
+import { uploadImage } from '../utils/s3'
 import * as productService from '../services/productService'
-import { generateUniqueFileName } from '../utils/generateUniqueFileName'
+import { generateUniqueFileName } from '../utils/utils'
 import Product from '../models/Product'
 
 export const createProductHandler = async (req: Request, res: Response): Promise<void> => {

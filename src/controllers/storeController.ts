@@ -1,8 +1,10 @@
 import { Request, Response } from 'express'
-import { createStore, deleteStore, getAllStores, getStoreById, updateStore } from '../services/storeService'
 import fileUpload from 'express-fileupload'
-import { generateUniqueFileName } from '../utils/generateUniqueFileName'
-import { uploadImage } from '../utils/uploads'
+
+import Store from '../models/Store'
+import { deleteImage, uploadImage } from '../utils/s3'
+import { cleanFilePath, generateUniqueFileName } from '../utils/utils'
+import { createStore, deleteStore, getAllStores, getStoreById, updateStore } from '../services/storeService'
 
 export const createStoreHandler = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -79,12 +81,16 @@ export const deleteStoreHandler = async (req: Request, res: Response): Promise<v
 export const updateStoreLogo = async (req: Request, res: Response): Promise<void> => {
   const storeId = req.params.id
 
+  const store = await Store.findOne({ _id: storeId })
+
   if (!storeId) {
+    console.error('Store ID is required')
     res.status(400).json({ ok: false, message: 'Store ID is required.' })
     return
   }
 
   if (!req.files || !req.files.image) {
+    console.error('Image file is required')
     res.status(400).json({ ok: false, message: 'Image file is required.' })
     return
   }
@@ -96,8 +102,9 @@ export const updateStoreLogo = async (req: Request, res: Response): Promise<void
 
     const imageUrl = await uploadImage(imageFile.data, uniqueFileName, true)
 
-    await updateStore(storeId, { logo: imageUrl })
+    if (store && store.logo) await deleteImage(cleanFilePath(store.logo))
 
+    await updateStore(storeId, { logo: imageUrl })
     res.status(201).json({ ok: true })
   } catch (error) {
     console.error('Error saving store logo:', error)

@@ -11,3 +11,8 @@ export const generateUniqueFileName = (originalFileName: string, folderPath: str
   const uniqueId = uuidv4()
   return `${folderPath}/${uniqueId}.${fileExtension}`
 }
+
+export const cleanFilePath = (url: string): string => {
+  const parsedUrl = new URL(url)
+  return parsedUrl.pathname.substring(1)
+}

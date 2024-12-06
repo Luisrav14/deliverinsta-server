@@ -1,6 +1,6 @@
 import sharp from 'sharp'
 import s3 from '../config/s3Client'
-import { PutObjectRequest } from 'aws-sdk/clients/s3'
+import { PutObjectRequest, DeleteObjectRequest } from 'aws-sdk/clients/s3'
 
 /**
  * Uploads files on AWS S3 and returns the location URL.
@@ -28,5 +28,25 @@ export const uploadImage = async (fileBuffer: Buffer, filePath: string, optimize
   } catch (error) {
     console.error('Error uploading file:', error)
     throw error
+  }
+}
+
+/**
+ * Deletes a file from AWS S3.
+ * @param filePath - The path in the bucket where the file is stored.
+ * @returns A confirmation message if the file was deleted successfully.
+ */
+export const deleteImage = async (filePath: string): Promise<boolean> => {
+  try {
+    const params: DeleteObjectRequest = {
+      Bucket: process.env.AWS_BUCKET_NAME as string,
+      Key: filePath
+    }
+
+    await s3.deleteObject(params).promise()
+    return true
+  } catch (error) {
+    console.error('Error deleting file:', error)
+    throw new Error(`Could not delete file ${filePath}.`)
   }
 }
