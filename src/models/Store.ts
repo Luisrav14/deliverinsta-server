@@ -14,6 +14,7 @@ export interface IStore extends Document {
   closeTime: string
   daysOpen: string[]
   active: boolean
+  logo: string
   createdAt: string
   updatedAt: string
 }
@@ -68,6 +69,10 @@ const storeSchema: Schema = new Schema(
     active: {
       type: Boolean,
       default: false
+    },
+    logo: {
+      type: String,
+      default: null
     }
   },
   {
