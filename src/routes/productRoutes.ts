@@ -4,6 +4,8 @@ import * as productController from '../controllers/productController'
 
 const productRouter = express.Router()
 
+productRouter.get('/', productController.getProductsWithPaginationHandler)
+
 productRouter.use(authMiddleware)
 
 productRouter.post('/', productController.createProductHandler)

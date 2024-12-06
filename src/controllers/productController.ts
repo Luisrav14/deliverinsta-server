@@ -85,6 +85,43 @@ export const getProductsByStoreHandler = async (req: Request, res: Response): Pr
   }
 }
 
+export const getProductsWithPaginationHandler = async (req: Request, res: Response): Promise<void> => {
+  const page = parseInt(req.query.page as string, 10) || 1
+  const limit = parseInt(req.query.limit as string, 10) || 10
+  const sortBy = (req.query.sortBy as string) || 'name'
+  const order = req.query.order === 'desc' ? -1 : 1
+  const search = (req.query.search as string) || ''
+
+  try {
+    const filter: Record<string, any> = {}
+    if (search) {
+      filter.name = { $regex: search, $options: 'i' }
+    }
+
+    const total = await Product.countDocuments(filter)
+    const products = await Product.find(filter)
+      .populate('category')
+      .populate('storeId')
+      .sort({ [sortBy]: order })
+      .skip((page - 1) * limit)
+      .limit(limit)
+
+    res.status(200).json({
+      ok: true,
+      data: products,
+      pagination: {
+        total,
+        page,
+        pages: Math.ceil(total / limit),
+        limit
+      }
+    })
+  } catch (error) {
+    console.error('Error fetching products:', error)
+    res.status(500).json({ ok: false, message: 'Error fetching products.' })
+  }
+}
+
 export const getProductsHandler = async (req: Request, res: Response): Promise<void> => {
   try {
     const products = await productService.getAllProducts()
