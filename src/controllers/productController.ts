@@ -91,12 +91,14 @@ export const getProductsWithPaginationHandler = async (req: Request, res: Respon
   const sortBy = (req.query.sortBy as string) || 'name'
   const order = req.query.order === 'desc' ? -1 : 1
   const search = (req.query.search as string) || ''
+  const category = (req.query.category as string) || ''
 
   try {
     const filter: Record<string, any> = {}
-    if (search) {
-      filter.name = { $regex: search, $options: 'i' }
-    }
+
+    if (search) filter.name = { $regex: search, $options: 'i' }
+
+    if (category) filter.category = category
 
     const total = await Product.countDocuments(filter)
     const products = await Product.find(filter)

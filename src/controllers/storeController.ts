@@ -35,14 +35,41 @@ export const getStoreByIdHandler = async (req: Request, res: Response): Promise<
 }
 
 export const getAllStoresHandler = async (req: Request, res: Response): Promise<void> => {
+  const page = parseInt(req.query.page as string, 10) || 1
+  const limit = parseInt(req.query.limit as string, 10) || 10
+  const sortBy = (req.query.sortBy as string) || 'name'
+  const order = req.query.order === 'desc' ? -1 : 1
+  const search = (req.query.search as string) || ''
+  const category = (req.query.category as string) || ''
+
   try {
-    const stores = await getAllStores()
+    const filter: Record<string, any> = {}
 
-    res.status(201).json({ ok: true, data: stores })
+    if (search) filter.name = { $regex: search, $options: 'i' }
+
+    if (category) filter.category = category
+
+    const total = await Store.find(filter).countDocuments()
+
+    const stores = await Store.find(filter)
+      .sort({ [sortBy]: order })
+      .skip((page - 1) * limit)
+      .limit(limit)
+
+    res.status(200).json({
+      ok: true,
+      data: stores,
+      pagination: {
+        total,
+        page,
+        pages: Math.ceil(total / limit),
+        limit
+      }
+    })
   } catch (error) {
-    console.error(error)
+    console.error('Error fetching stores:', error)
 
-    res.status(500).json({ error: error })
+    res.status(500).json({ ok: false, message: 'Error fetching stores.' })
   }
 }
 

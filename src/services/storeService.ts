@@ -9,8 +9,8 @@ export const getStoreById = async (id: string): Promise<IStore | null> => {
   return await Store.findOne({ uid: id })
 }
 
-export const getAllStores = async (): Promise<IStore[]> => {
-  return await Store.find()
+export const getAllStores = async (query: any): Promise<IStore[]> => {
+  return await Store.find(query)
 }
 
 export const updateStore = async (id: string, userData: Partial<IStore>): Promise<IStore | null> => {
