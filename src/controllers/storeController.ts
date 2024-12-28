@@ -55,10 +55,16 @@ export const getAllStoresHandler = async (req: Request, res: Response): Promise<
       .sort({ [sortBy]: order })
       .skip((page - 1) * limit)
       .limit(limit)
+      .lean()
+
+    const formattedStores = stores.map((store) => ({
+      ...store,
+      id: store._id
+    }))
 
     res.status(200).json({
       ok: true,
-      data: stores,
+      data: formattedStores,
       pagination: {
         total,
         page,
